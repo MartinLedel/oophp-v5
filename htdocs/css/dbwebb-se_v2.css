@@ -6539,6 +6539,33 @@ a.rm-button.rm-clicked .rm-button-face-2 {
   border-top: 1px solid #ccc;
   background-image: linear-gradient(to right, #fff, #ccc);
 }
+select {
+  border: 1px solid black;
+  padding: 0.1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  box-sizing: border-box;
+  resize: vertical;
+}
+input[type=text],
+textarea {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid black;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  box-sizing: border-box;
+  resize: vertical;
+}
+input[type=number] {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid black;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  box-sizing: border-box;
+  resize: vertical;
+}
 /**
  * My settings.
  */
