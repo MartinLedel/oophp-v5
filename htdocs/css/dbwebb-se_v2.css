@@ -6566,6 +6566,13 @@ input[type=number] {
   box-sizing: border-box;
   resize: vertical;
 }
+input[type=submit] {
+  padding: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  box-sizing: border-box;
+  resize: vertical;
+}
 /**
  * My settings.
  */

@@ -36,8 +36,8 @@ return [
             "template" => "anax/v2/header/site_logo",
             "data" => [
                 "class" => "large",
-                "siteLogo"      => "image/theme/leaf_256x256.png",
-                "siteLogoAlt"   => "Löv",
+                "siteLogo"      => "image/theme/phplogo256x256.png",
+                "siteLogoAlt"   => "php",
             ],
         ],
         [
@@ -46,8 +46,8 @@ return [
             "data" => [
                 "homeLink"      => "",
                 "siteLogoText"  => "oophp",
-                "siteLogoTextIcon" => "image/theme/leaf_40x40.png",
-                "siteLogoTextIconAlt" => "Löv-bild",
+                "siteLogoTextIcon" => "image/theme/phplogo40x40.png",
+                "siteLogoTextIconAlt" => "php-bild",
             ],
         ],
         [
