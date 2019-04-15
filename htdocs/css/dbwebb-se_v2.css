@@ -6550,26 +6550,26 @@ select {
 input[type=text],
 textarea {
   width: 100%;
-  padding: 0.5em;
+  padding: 0.1em;
   border: 1px solid black;
   margin-top: 1em;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   box-sizing: border-box;
   resize: vertical;
 }
 input[type=number] {
   width: 100%;
-  padding: 0.5em;
+  padding: 0.1em;
   border: 1px solid black;
   margin-top: 1em;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   box-sizing: border-box;
   resize: vertical;
 }
 input[type=submit] {
-  padding: 0.5em;
+  padding: 0.1em;
   margin-top: 1em;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   box-sizing: border-box;
   resize: vertical;
 }

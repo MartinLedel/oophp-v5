@@ -88,7 +88,7 @@ $app->router->get("guess/make-guess", function () use ($app) {
             $_SESSION["res"] = $res;
             $_SESSION["tries"] = $game->tries();
             $_SESSION["guess"] = $guess;
-        } catch (GuessException $e) {
+        } catch (Macy\Guess\GuessException $e) {
             $res = "Guess is only allowed to be from 1 - 100";
             $_SESSION["res"] = $res;
         }
