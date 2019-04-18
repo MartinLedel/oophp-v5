@@ -5029,6 +5029,15 @@ a:hover {
  * Use internal modules
  * @TODO check and clean up and explain what this style does.
  */
+/** ------------------------------------------------------------------
+ * Variables
+ */
+/** --------------------------------------------------------------
+ * General colors to colorize the site
+ */
+/** --------------------------------------------------------------
+ * Standard colors
+ */
 /** --------------------------------------------------------------
  * Blog
  */
@@ -5188,6 +5197,93 @@ fieldset {
 }
 .LI-profile-badge .LI-badge-container.vertical.light {
   min-height: 440px;
+}
+select {
+  border: 1px solid black;
+  padding: 0.1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  box-sizing: border-box;
+  resize: vertical;
+}
+input[type=text],
+textarea {
+  width: 100%;
+  padding: 0.1em;
+  border: 1px solid black;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  box-sizing: border-box;
+  resize: vertical;
+}
+input[type=number] {
+  width: 100%;
+  padding: 0.1em;
+  border: 1px solid black;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  box-sizing: border-box;
+  resize: vertical;
+}
+input[type=submit] {
+  padding: 0.1em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  box-sizing: border-box;
+  resize: vertical;
+}
+.button {
+  color: #333;
+  background-color: #fff;
+  background-image: linear-gradient(#fff, #cccccc);
+  border: 1px solid #cccccc;
+  text-decoration: none;
+  box-sizing: border-box;
+  display: inline-block;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  padding: 0.4rem 1rem;
+  text-align: center;
+  border-radius: 0.2rem;
+  line-height: 1.5;
+  width: 10rem;
+}
+.button:hover {
+  background-color: #b3b3b3;
+  background-image: none;
+}
+.button:active {
+  background-color: #a6a6a6;
+  background-image: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.blue-button {
+  color: #fff;
+  background-color: #0074d9;
+  background-image: linear-gradient(#0074d9, #003d73);
+  border-color: #003d73;
+}
+.blue-button:hover {
+  background-color: #002240;
+  background-image: none;
+}
+.blue-button:active {
+  background-color: #001527;
+  background-image: none;
+}
+.green-button {
+  color: #fff;
+  background-color: #2ecc40;
+  background-image: linear-gradient(#2ecc40, #1b7926);
+  border-color: #1b7926;
+}
+.green-button:hover {
+  background-color: #124f19;
+  background-image: none;
+}
+.green-button:active {
+  background-color: #0d3a12;
+  background-image: none;
 }
 /**
  * Base style to affect HTML elements on a general scale.
@@ -6538,40 +6634,6 @@ a.rm-button.rm-clicked .rm-button-face-2 {
 .wrap-sidebar .block h4 {
   border-top: 1px solid #ccc;
   background-image: linear-gradient(to right, #fff, #ccc);
-}
-select {
-  border: 1px solid black;
-  padding: 0.1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  box-sizing: border-box;
-  resize: vertical;
-}
-input[type=text],
-textarea {
-  width: 100%;
-  padding: 0.1em;
-  border: 1px solid black;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-  box-sizing: border-box;
-  resize: vertical;
-}
-input[type=number] {
-  width: 100%;
-  padding: 0.1em;
-  border: 1px solid black;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-  box-sizing: border-box;
-  resize: vertical;
-}
-input[type=submit] {
-  padding: 0.1em;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-  box-sizing: border-box;
-  resize: vertical;
 }
 /**
  * My settings.
