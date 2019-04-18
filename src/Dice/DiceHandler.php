@@ -12,7 +12,6 @@ class DiceHandler
     private $currentplayer;
     private $lastroll;
     private $savedscore;
-    private $tries;
 
     public function __construct(string $currentplayer)
     {
@@ -20,7 +19,6 @@ class DiceHandler
         $this->savedscore = ["Player" => 0, "Computer" => 0];
         $this->currentplayer = $currentplayer;
         $this->lastroll = [];
-        $this->tries = [];
     }
 
     public function rollForScore()
