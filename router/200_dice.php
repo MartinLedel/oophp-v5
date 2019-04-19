@@ -54,7 +54,7 @@ $app->router->get("dice/play", function () use ($app) {
     ];
 
     $app->page->add("dice/play", $data);
-    $app->page->add("dice/debug");
+    // $app->page->add("dice/debug");
 
     return $app->page->render([
         "title" => $title,
@@ -93,6 +93,11 @@ $app->router->post("dice/play", function () use ($app) {
 $app->router->get("dice/play-dice", function () use ($app) {
 
     $game = $_SESSION["game"];
+    /**
+    * Är något problem med hur den spara poängen
+    * Den ska inte ta bort sparade poäng utan "nolla"
+    * bara den nuvarande rundan
+    */
     $_SESSION["scores"] = $game->rollForScore();
     $_SESSION["lastroll"] = $game->getLastRoll();
     $_SESSION["player"] = $game->getCurrentPlayer();

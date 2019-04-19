@@ -32,6 +32,7 @@ class DiceHandler
             if ($value == 1) {
                 $this->lastroll[$player] = $rolls;
                 $this->playerscores[$player] = 0;
+                $this->playerscores[$player] = $this->savedscore[$player];
                 $this->swapPlayer();
                 return $this->playerscores;
             }
