@@ -44,19 +44,19 @@ class DiceHandler
 
     public function simulateComputer()
     {
-        $player = $this->getCurrentPlayer();
-        while ($player == "Computer") {
-            $this->rollForScore();
-            $computerscore = $this->getCurrentPlayerScore("Computer");
-            $player = $this->getCurrentPlayer();
-            if ($computerscore > 10 && $computerscore < 30) {
-                $this->setSavedScore();
-                break;
-            } elseif ($computerscore > 50 && $computerscore < 70) {
-                $this->setSavedScore();
-                break;
+        while ($this->currentplayer == "Computer") {
+            $computerscore = $this->rollForScore();
+            if ($this->currentplayer == "Computer") {
+                if ($computerscore["Computer"] > 10 && $computerscore["Computer"] < 30) {
+                    $this->setSavedScore();
+                    break;
+                } elseif ($computerscore["Computer"] > 50 && $computerscore["Computer"] < 70) {
+                    $this->setSavedScore();
+                    break;
+                }
             }
         }
+        return $this->playerscores;
     }
 
     public function swapPlayer()
