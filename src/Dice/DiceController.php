@@ -21,9 +21,10 @@ use Anax\Commons\AppInjectableTrait;
 class DiceController implements AppInjectableInterface
 {
     use AppInjectableTrait;
+
     /**
-     * @var string $db a sample member variable that gets initialised
-     */
+    * @var string $db a sample member variable that gets initialised
+    */
     private $db = "not active";
 
     /**
@@ -49,15 +50,15 @@ class DiceController implements AppInjectableInterface
         $player1roll = $player1->roll();
         $computerroll = $computer->roll();
         if ($player1roll > $computerroll) {
-            $game = new DiceHandler("Player");
-            $_SESSION["player"] = "Player";
+            $game = new DiceHandler2("Player");
+            $this->app->session->set("player", "Player");
         } else {
-            $game = new DiceHandler("Computer");
-            $_SESSION["computer"] = "Computer";
+            $game = new DiceHandler2("Computer");
+            $this->app->session->set("computer", "Computer");
         }
         // Init game and score into session
-        $_SESSION["game"] = $game;
-        $_SESSION["scores"] = $game->getPlayerScore();
+        $this->app->session->set("game", $game);
+        $this->app->session->set("scores", $game->getPlayerScore());
         return $this->app->response->redirect("dice1/play");
     }
 
@@ -66,17 +67,22 @@ class DiceController implements AppInjectableInterface
         $title = "Play the game (1)";
 
         // Deal with incoming SESSION
-        $scores = $_SESSION["scores"] ?? null;
-        $lastroll = $_SESSION["lastroll"] ?? null;
-        $player = $_SESSION["player"] ?? null;
-        $computer = $_SESSION["computer"] ?? null;
-        $winner = $_SESSION["winner"] ?? null;
+        $scores = $this->app->session->get("scores");
+        $lastroll = $this->app->session->get("lastroll");
+        $player = $this->app->session->get("player");
+        $winner = $this->app->session->get("winner");
+        $game = $this->app->session->get("game");
+        $histogram = $game->getHistogram();
+        $counter = $game->getCounter();
+        $game->setCounter();
 
         $data = [
             "scores" => $scores,
             "player" => $player,
             "lastroll" => $lastroll,
-            "winner" => $winner
+            "winner" => $winner,
+            "histogram" => $histogram,
+            "counter" => $counter
         ];
 
         $this->app->page->add("dice1/play", $data);
@@ -90,20 +96,23 @@ class DiceController implements AppInjectableInterface
     public function playActionPost() : object
     {
         // Deal with incoming POST
-        $_SESSION["computer"] = $_POST["computer"] ?? null;
-        $_SESSION["doInit"] = $_POST["doInit"] ?? null;
-        $_SESSION["doSave"] = $_POST["doSave"] ?? null;
+        $computer = $this->app->request->getPost("computer");
+        $this->app->session->set("computer", $computer);
+        $doinit = $this->app->request->getPost("doInit");
+        $this->app->session->set("doInit", $doinit);
+        $dosave = $this->app->request->getPost("doSave");
+        $this->app->session->set("doSave", $dosave);
 
         // Route to reinit the game
-        if ($_SESSION["doInit"]) {
+        if ($this->app->session->get("doInit")) {
             return $this->app->response->redirect("dice1/init");
         }
         // Route to save the player score
-        if ($_SESSION["doSave"]) {
+        if ($this->app->session->get("doSave")) {
             return $this->app->response->redirect("dice1/save-score");
         }
 
-        if ($_SESSION["computer"]) {
+        if ($this->app->session->get("computer")) {
             return $this->app->response->redirect("dice1/computer-dice");
         }
 
@@ -113,14 +122,14 @@ class DiceController implements AppInjectableInterface
 
     public function playDiceAction() : object
     {
-        $game = $_SESSION["game"];
-        $_SESSION["scores"] = $game->rollForScore();
-        $_SESSION["lastroll"] = $game->getLastRoll();
-        $_SESSION["player"] = $game->getCurrentPlayer();
+        $game = $this->app->session->get("game");
+        $this->app->session->set("scores", $game->rollForScore());
+        $this->app->session->set("lastroll", $game->getLastRoll());
+        $this->app->session->set("player", $game->getCurrentPlayer());
         $currentplayerscore = $game->getCurrentPlayerScore("Player");
         //Check if the score is over 100 to determine winner
         if ($currentplayerscore >= 100) {
-            $_SESSION["winner"] = $game->getCurrentPlayer();
+            $this->app->session->set("winner", $game->getCurrentPlayer());
         }
 
         return $this->app->response->redirect("dice1/play");
@@ -128,15 +137,14 @@ class DiceController implements AppInjectableInterface
 
     public function computerDiceAction() : object
     {
-        $game = $_SESSION["game"];
-        $game->simulateComputer();
-        $_SESSION["scores"] = $game->getPlayerScore();
-        $_SESSION["lastroll"] = $game->getLastRoll();
-        $_SESSION["player"] = $game->getCurrentPlayer();
+        $game = $this->app->session->get("game");
+        $this->app->session->set("scores", $game->simulateComputer());
+        $this->app->session->set("lastroll", $game->getLastRoll());
+        $this->app->session->set("player", $game->getCurrentPlayer());
         $currentplayerscore = $game->getCurrentPlayerScore("Computer");
         //Check if the score is over 100 to determine winner
         if ($currentplayerscore >= 100) {
-            $_SESSION["winner"] = $game->getCurrentPlayer();
+            $this->app->session->set("winner", $game->getCurrentPlayer());
         }
 
         return $this->app->response->redirect("dice1/play");
@@ -144,9 +152,10 @@ class DiceController implements AppInjectableInterface
 
     public function saveScoreAction() : object
     {
-        $game = $_SESSION["game"];
-        $_SESSION["scores"] += $game->setSavedScore();
-        $_SESSION["player"] = $game->getCurrentPlayer();
+        $game = $this->app->session->get("game");
+        // $_SESSION["scores"] += $game->setSavedScore();
+        $this->app->session->set("scores", $game->setSavedScore());
+        $this->app->session->set("player", $game->getCurrentPlayer());
 
         return $this->app->response->redirect("dice1/play");
     }

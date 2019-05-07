@@ -5285,6 +5285,20 @@ input[type=submit] {
   background-color: #0d3a12;
   background-image: none;
 }
+.game-left {
+  display: inline;
+  float: left;
+  width: 65.625%;
+  margin-left: 0.52083333%;
+  margin-right: 0.52083333%;
+}
+.game-right {
+  display: inline;
+  float: left;
+  width: 23.95833333%;
+  margin-left: 0.52083333%;
+  margin-right: 0.52083333%;
+}
 /**
  * Base style to affect HTML elements on a general scale.
  */

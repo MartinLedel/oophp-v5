@@ -11,4 +11,4 @@ Spelaren bestämmer om ett nytt kast skall göras inom samma spelrunda för att 
 
 Om spelaren kastar en etta så avbryts spelrundan och turen går över till nästa spelare. Nuvarande spelare förlorar alla poäng som samlats in i nuvaranade spelrunda.
 
-[Starta ett nytt spel!](dice/init)
+[Starta ett nytt spel!](dice1/init)

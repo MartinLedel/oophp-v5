@@ -58,4 +58,18 @@ class DiceHandlerObjectTest extends TestCase
         $res = $game->setSavedScore();
         $this->assertInternalType("int", $res["Computer"]);
     }
+    /**
+     * Construct object and test if the player and score is correct.
+     */
+    public function testDiceHandlerGetPlayerAndScore()
+    {
+        $game = new DiceHandler("Player");
+        $this->assertInstanceOf("\Macy\Dice\DiceHandler", $game);
+
+        $player = $game->getCurrentPlayer();
+        $this->assertEquals("Player", $player);
+
+        $score = $game->getCurrentPlayerScore($player);
+        $this->assertEquals(0, $score);
+    }
 }

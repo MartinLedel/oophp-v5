@@ -11,8 +11,8 @@ class DiceHand
      * @var Dice $dices   Array consisting of dices.
      * @var int  $values  Array consisting of last roll of the dices.
      */
-    private $dices;
-    private $values;
+    protected $dices;
+    protected $values;
 
     /**
      * Constructor to initiate the dicehand with a number of dices.

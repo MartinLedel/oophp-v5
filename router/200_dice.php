@@ -50,7 +50,7 @@ $app->router->get("dice/play", function () use ($app) {
         "scores" => $scores,
         "player" => $player,
         "lastroll" => $lastroll,
-        "winner" => $winner
+        "winner" => $winner,
     ];
 
     $app->page->add("dice/play", $data);

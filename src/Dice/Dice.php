@@ -8,7 +8,7 @@ namespace Macy\Dice;
 class Dice
 {
 
-    private $sides;
+    protected $sides;
     private $lastRoll;
 
     public function __construct(int $sides = 6)
