@@ -25,7 +25,7 @@ class DiceController implements AppInjectableInterface
     /**
     * @var string $db a sample member variable that gets initialised
     */
-    private $db = "not active";
+    //private $db = "not active";
 
     /**
      * This is the index method action, it handles:

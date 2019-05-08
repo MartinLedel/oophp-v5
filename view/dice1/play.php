@@ -44,7 +44,7 @@ namespace Macy\View;
 </div>
 <div class="game-right">
 <p>
-    Histogram
+    Histogram <br>
     <?php if ($counter) : ?>
         <?php if ($counter == 1) : ?>
         Computer rolled <?= $counter ?> time
