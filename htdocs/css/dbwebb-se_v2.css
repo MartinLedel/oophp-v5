@@ -5182,6 +5182,22 @@ fieldset {
   float: left;
   padding-right: 0.5em;
 }
+input[type=text],
+input[type=datetime],
+textarea {
+  width: 400px;
+}
+textarea {
+  height: 200px;
+}
+label {
+  font-size: small;
+}
+input,
+textarea,
+legend {
+  font-size: large;
+}
 .span10 {
   width: 400px;
 }

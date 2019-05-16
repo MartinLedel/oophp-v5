@@ -95,8 +95,32 @@ return [
         ],
         [
             "text" => "Movie database",
-            "url" => "movie-database",
+            "url" => "movie1",
             "title" => "Filmer",
+        ],
+        [
+            "text" => "MyTextFilter",
+            "url" => "mytext/bbcode",
+            "title" => "MyTextFilter bbcode",
+            "submenu" => [
+                "items" => [
+                    [
+                        "text" => "bbcode",
+                        "url" => "mytext/bbcode",
+                        "title" => "MyTextFilter bbcode",
+                    ],
+                    [
+                        "text" => "clickable",
+                        "url" => "mytext/clickable",
+                        "title" => "MyTextFilter clickable",
+                    ],
+                    [
+                        "text" => "markdown",
+                        "url" => "mytext/markdown",
+                        "title" => "MyTextFilter markdown",
+                    ],
+                ],
+            ],
         ],
     ],
 ];

@@ -64,6 +64,8 @@ class MovieController implements AppInjectableInterface
         return $this->app->page->render([
             "title" => $title,
         ]);
+
+        return $this->app->response->redirect("movie1/index");
     }
 
     public function searchTitleAction() : object
