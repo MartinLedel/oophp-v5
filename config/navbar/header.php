@@ -122,5 +122,10 @@ return [
                 ],
             ],
         ],
+        [
+            "text" => "Bloggen",
+            "url" => "blogg1/index",
+            "title" => "Bloggen",
+        ],
     ],
 ];

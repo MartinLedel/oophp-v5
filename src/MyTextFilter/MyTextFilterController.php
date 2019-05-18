@@ -45,7 +45,7 @@ class MyTextFilterController implements AppInjectableInterface
     {
         $title = "bbcode";
         $filterclass = new MyTextFilter();
-        $filter = ["bbcode"];
+        $filter = ["bbcode", "nl2br"];
         $text = file_get_contents(ANAX_INSTALL_PATH . "/htdocs/text/bbcode.txt");
         $html = $filterclass->parse($text, $filter);
 

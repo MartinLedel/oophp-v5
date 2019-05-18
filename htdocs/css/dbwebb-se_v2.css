@@ -5357,6 +5357,13 @@ footer a {
   float: left;
   margin-right: 0.5em;
 }
+.nav-blogg {
+  text-decoration: none;
+  margin-bottom: 0.5em;
+}
+.nav-blogg a {
+  padding: 0.5em;
+}
 .movie-box {
   margin: 0 auto;
 }

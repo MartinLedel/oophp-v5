@@ -14,7 +14,7 @@ namespace Anax\View;
     <a href="<?= url("blogg1/pages") ?>">View pages</a>
     <a href="<?= url("blogg1/blog") ?>">View blog</a>
 </nav>
-<table class="movie-search">
+<table>
     <tr class="first">
         <th>Id</th>
         <th>Title</th>
@@ -23,10 +23,10 @@ namespace Anax\View;
         <th>Created</th>
         <th>Updated</th>
         <th>Deleted</th>
-        <th>Path</th>
-        <th>Slug</th>
+        <th>Actions</th>
     </tr>
-<?php foreach ($res as $row) : ?>
+<?php $id = -1; foreach ($res as $row) :
+    $id++; ?>
     <tr>
         <td><?= $row->id ?></td>
         <td><?= $row->title ?></td>
@@ -35,8 +35,14 @@ namespace Anax\View;
         <td><?= $row->created ?></td>
         <td><?= $row->updated ?></td>
         <td><?= $row->deleted ?></td>
-        <td><?= $row->path ?></td>
-        <td><?= $row->slug ?></td>
+        <td>
+            <a class="icons" href="<?= url("blogg1/edit?id=$row->id") ?>" title="Edit this content">
+                Edit
+            </a>
+            <a class="icons" href="<?= url("blogg1/delete?id=$row->id") ?>" title="Edit this content">
+                Delete
+            </a>
+        </td>
     </tr>
 <?php endforeach; ?>
 </table>

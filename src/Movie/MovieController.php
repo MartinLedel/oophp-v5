@@ -145,7 +145,6 @@ class MovieController implements AppInjectableInterface
         $movieId2 = $this->app->session->get("movieId", $movieId);
 
         if ($movieId && is_numeric($movieId)) {
-            $movieId++;
             $this->app->db->connect();
             $sql = "SELECT * FROM movie WHERE id = $movieId;";
             $movie = $this->app->db->executeFetchAll($sql);
@@ -223,7 +222,6 @@ class MovieController implements AppInjectableInterface
         $movieId = $this->app->request->getGet("movieId");
 
         if ($movieId && is_numeric($movieId)) {
-            $movieId++;
             $this->app->db->connect();
             $sql = "DELETE FROM movie WHERE id = ?;";
             $this->app->db->execute($sql, [$movieId]);

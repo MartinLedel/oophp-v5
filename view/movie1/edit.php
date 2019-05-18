@@ -5,6 +5,7 @@ namespace Anax\View;
 /**
  * Render content within an article.
  */
+
 ?>
 <ul class="left-list">
     <li><a href="<?= url("movie1/index") ?>">Visa alla filmer</a></li>

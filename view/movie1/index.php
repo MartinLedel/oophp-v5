@@ -32,8 +32,8 @@ if (!$res) {
         <td><img class="thumb" src="<?= asset($row->image)?>"></td>
         <td><?= $row->title ?></td>
         <td><?= $row->year ?></td>
-        <td><a href="<?= url("movie1/edit?movieId=$id") ?>">Edit</a></td>
-        <td><a href="<?= url("movie1/delete?movieId=$id") ?>">Delete</a></td>
+        <td><a href="<?= url("movie1/edit?movieId=$row->id") ?>">Edit</a></td>
+        <td><a href="<?= url("movie1/delete?movieId=$row->id") ?>">Delete</a></td>
     </tr>
 <?php endforeach; ?>
 </table>

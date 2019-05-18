@@ -1,6 +1,6 @@
 <?php
 
-namespace Macy\MyTextFilter;
+namespace Macy\Blogg;
 
 use Michelf\MarkdownExtra;
 
@@ -12,7 +12,7 @@ use Michelf\MarkdownExtra;
 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 * @SuppressWarnings(PHPMD.StaticAccess)
 */
-class MyTextFilter
+class MyTextFilter2
 {
     /**
      * @var array $filters Supported filters with method names of
@@ -37,6 +37,7 @@ class MyTextFilter
      */
     public function parse($text, $filter)
     {
+        $text = strip_tags(htmlentities($text));
         $callbacks = $this->filters;
         foreach ($filter as $key) {
             switch ($key) {
