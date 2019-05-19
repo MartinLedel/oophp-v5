@@ -50,17 +50,15 @@ class BloggController implements AppInjectableInterface
     public function indexAction() : object
     {
         $title = "Bloggen index";
-
-        $this->app->db->connect();
-        $sql = "SELECT * FROM content;";
-        $res = $this->app->db->executeFetchAll($sql);
+        $handler = new ContentHandler();
+        $dbmodule = $this->app->db;
+        $res = $handler->selectRequest($dbmodule);
 
         $data = [
             "res" => $res,
         ];
 
         $this->app->page->add("blogg1/index", $data);
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -71,7 +69,6 @@ class BloggController implements AppInjectableInterface
         $title = "404";
 
         $this->app->page->add("blogg1/page404");
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -80,17 +77,15 @@ class BloggController implements AppInjectableInterface
     public function adminAction() : object
     {
         $title = "Bloggen admin";
-
-        $this->app->db->connect();
-        $sql = "SELECT * FROM content;";
-        $res = $this->app->db->executeFetchAll($sql);
+        $handler = new ContentHandler();
+        $dbmodule = $this->app->db;
+        $res = $handler->selectRequest($dbmodule);
 
         $data = [
             "res" => $res,
         ];
 
         $this->app->page->add("blogg1/admin", $data);
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -100,11 +95,11 @@ class BloggController implements AppInjectableInterface
     {
         $title = "Bloggen edit";
         $contentId = $this->app->request->getGet("id");
+        $handler = new ContentHandler();
+        $dbmodule = $this->app->db;
 
         if ($contentId && is_numeric($contentId)) {
-            $this->app->db->connect();
-            $sql = "SELECT * FROM content WHERE id = ?;";
-            $content = $this->app->db->executeFetch($sql, [$contentId]);
+            $content = $handler->searchRequest($dbmodule, $contentId);
         } else {
             return $this->app->response->redirect("blogg1/index");
         }
@@ -114,7 +109,6 @@ class BloggController implements AppInjectableInterface
         ];
 
         $this->app->page->add("blogg1/edit", $data);
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -144,6 +138,16 @@ class BloggController implements AppInjectableInterface
                 "contentId" => $this->app->request->getPost("contentId"),
             ];
 
+            $params2 = [
+                "contentTitle" => $this->app->request->getPost("contentTitle"),
+                "contentPath" => $this->app->request->getPost("contentPath"),
+                "contentData" => $this->app->request->getPost("contentData"),
+                "contentType" => $this->app->request->getPost("contentType"),
+                "contentFilter" => $this->app->request->getPost("contentFilter"),
+                "contentPublish" => $this->app->request->getPost("contentPublish"),
+                "contentId" => $this->app->request->getPost("contentId"),
+            ];
+
             if (!$params["contentPath"]) {
                 $params["contentPath"] = null;
             }
@@ -152,17 +156,9 @@ class BloggController implements AppInjectableInterface
                    $params["contentSlug"] = $this->slugify($params["contentTitle"]);
             }
 
-//             $sql = <<<EOD
-// UPDATE content
-// SET title=?, path=?, slug=?, data=?, type=?, filter=?, published=?
-// WHERE id = ?
-// ON DUPLICATE KEY UPDATE
-//     slug = ? + "-fel"
-// ;
-// EOD;
-            $sql = "UPDATE content SET title=?, path=?, slug=?, data=?, type=?, filter=?, published=? WHERE id = ?;";
-            $this->app->db->connect();
-            $this->app->db->execute($sql, array_values($params));
+            $handler = new ContentHandler();
+            $dbmodule = $this->app->db;
+            $handler->editRequest($dbmodule, $params, $params2);
         }
 
         return $this->app->response->redirect("blogg1/edit?id=$contentId");
@@ -172,7 +168,6 @@ class BloggController implements AppInjectableInterface
         $title = "Bloggen create";
 
         $this->app->page->add("blogg1/create");
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -181,12 +176,11 @@ class BloggController implements AppInjectableInterface
     public function createActionPost() : object
     {
         if ($this->app->request->getPost("doCreate")) {
-            $this->app->db->connect();
+            $handler = new ContentHandler();
+            $dbmodule = $this->app->db;
             $title = $this->app->request->getPost("contentTitle");
-            $sql = "INSERT INTO content (title) VALUES (?);";
-            $this->app->db->execute($sql, [$title]);
+            $contentId = $handler->createRequest($dbmodule, $title);
 
-            $contentId = $this->app->db->lastInsertId();
             return $this->app->response->redirect("blogg1/edit?id=$contentId");
         }
 
@@ -195,13 +189,12 @@ class BloggController implements AppInjectableInterface
     public function deleteAction() : object
     {
         $title = "Bloggen delete";
-
+        $handler = new ContentHandler();
+        $dbmodule = $this->app->db;
         $contentId = $this->app->request->getGet("id");
 
         if ($contentId && is_numeric($contentId)) {
-            $this->app->db->connect();
-            $sql = "SELECT id, title FROM content WHERE id = ?;";
-            $content = $this->app->db->executeFetch($sql, [$contentId]);
+            $content = $handler->searchRequest($dbmodule, $contentId);
         } else {
             return $this->app->response->redirect("blogg1/index");
         }
@@ -211,7 +204,6 @@ class BloggController implements AppInjectableInterface
         ];
 
         $this->app->page->add("blogg1/delete", $data);
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -220,14 +212,14 @@ class BloggController implements AppInjectableInterface
     public function deleteActionPost() : object
     {
         $contentId = $this->app->request->getPost("contentId");
+        $handler = new ContentHandler();
+        $dbmodule = $this->app->db;
         if (!is_numeric($contentId)) {
             return $this->app->response->redirect("blogg1/index");
         }
 
         if ($this->app->request->getPost("doDelete")) {
-            $this->app->db->connect();
-            $sql = "UPDATE content SET deleted=NOW() WHERE id=?;";
-            $this->app->db->execute($sql, [$contentId]);
+            $handler->deleteRequest($dbmodule, $contentId);
 
             return $this->app->response->redirect("blogg1/admin");
         }
@@ -237,28 +229,16 @@ class BloggController implements AppInjectableInterface
     public function pagesAction() : object
     {
         $title = "Bloggen pages";
+        $handler = new PageHandler();
+        $dbmodule = $this->app->db;
 
-        $this->app->db->connect();
-        $sql = <<<EOD
-SELECT
-*,
-CASE
-    WHEN (deleted <= NOW()) THEN "isDeleted"
-    WHEN (published <= NOW()) THEN "isPublished"
-    ELSE "notPublished"
-END AS status
-FROM content
-WHERE type=?
-;
-EOD;
-        $res = $this->app->db->executeFetchAll($sql, ["page"]);
+        $res = $handler->selectRequest($dbmodule);
 
         $data = [
             "res" => $res,
         ];
 
         $this->app->page->add("blogg1/pages", $data);
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -267,30 +247,15 @@ EOD;
     public function pageActionGet($route) : object
     {
         $title = "Bloggen $route";
-        $sql = <<<EOD
-SELECT
-    *,
-    DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%dT%TZ') AS modified_iso8601,
-    DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%d') AS modified
-FROM content
-WHERE
-    path = ?
-    AND type = ?
-    AND (deleted IS NULL OR deleted > NOW())
-    AND published <= NOW()
-;
-EOD;
-        $this->app->db->connect();
-        $content = $this->app->db->executeFetch($sql, [$route, "page"]);
+        $handler = new PageHandler();
+        $dbmodule = $this->app->db;
+        $content = $handler->pageGetRequest($dbmodule, $route);
+
         if (!$content) {
             return $this->app->response->redirect("blogg1/page404");
         }
 
-        $sql = "SELECT filter FROM content WHERE path = ?";
-        $filter = $this->app->db->executeFetch($sql, [$route]);
-        $splitfilter = explode(",", $filter->filter);
-        $textfilter = new MyTextFilter2();
-        $text = $textfilter->parse($content->data, $splitfilter);
+        $text = $handler->filterRequest($dbmodule, $route, $content);
 
         $data = [
             "content" => $content,
@@ -298,7 +263,6 @@ EOD;
         ];
 
         $this->app->page->add("blogg1/page", $data);
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -307,26 +271,15 @@ EOD;
     public function blogAction() : object
     {
         $title = "Bloggen blog";
-
-        $sql = <<<EOD
-SELECT
-    *,
-    DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%dT%TZ') AS published_iso8601,
-    DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%d') AS published
-    FROM content
-WHERE type=?
-ORDER BY published DESC
-;
-EOD;
-        $this->app->db->connect();
-        $res = $this->app->db->executeFetchAll($sql, ["post"]);
+        $handler = new BlogHandler();
+        $dbmodule = $this->app->db;
+        $res = $handler->selectRequest($dbmodule);
 
         $data = [
             "res" => $res,
         ];
 
         $this->app->page->add("blogg1/blog", $data);
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
@@ -335,30 +288,15 @@ EOD;
     public function blogpostActionGet($route) : object
     {
         $title = "Bloggen $route";
-        $sql = <<<EOD
-SELECT
-    *,
-    DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%dT%TZ') AS modified_iso8601,
-    DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%d') AS modified
-FROM content
-WHERE
-    slug = ?
-    AND type = ?
-    AND (deleted IS NULL OR deleted > NOW())
-    AND published <= NOW()
-;
-EOD;
-        $this->app->db->connect();
-        $content = $this->app->db->executeFetch($sql, [$route, "post"]);
+        $handler = new BlogHandler();
+        $dbmodule = $this->app->db;
+        $content = $handler->blogGetRequest($dbmodule, $route);
+
         if (!$content) {
             return $this->app->response->redirect("blogg1/page404");
         }
 
-        $sql = "SELECT filter FROM content WHERE slug = ?";
-        $filter = $this->app->db->executeFetch($sql, [$route]);
-        $splitfilter = explode(",", $filter->filter);
-        $textfilter = new MyTextFilter2();
-        $text = $textfilter->parse($content->data, $splitfilter);
+        $text = $handler->filterRequest($dbmodule, $route, $content);
 
         $data = [
             "content" => $content,
@@ -366,7 +304,6 @@ EOD;
         ];
 
         $this->app->page->add("blogg1/blogpost", $data);
-        // $this->app->page->add("dice1/debug");
 
         return $this->app->page->render([
             "title" => $title,
